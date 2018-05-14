@@ -1,7 +1,7 @@
 /*
  * Create a list that holds all of your cards
  */
-
+var CardList =["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bolt", "fa fa-cube", "fa fa-anchor", "fa fa-leaf", "fa fa-bicycle","fa fa-diamond","fa fa-bomb","fa fa-leaf","fa fa-bomb","fa fa-bolt","fa fa-bicycle", "fa fa-paper-plane-o","fa fa-cube"];
 
 /*
  * Display the cards on the page
@@ -25,7 +25,6 @@ function shuffle(array) {
     return array;
 }
 
-
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -36,3 +35,12 @@ function shuffle(array) {
  *    + increment the move counter and display it on the page (put this functionality in another function that you call from this one)
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
+
+ $(".card").click(function() {
+   //if card is displaying, close (remove class)
+  //if card is not shown, open (add class)
+   $(this).toggleClass("show");
+   $(this).toggleClass("open");
+
+
+ });
