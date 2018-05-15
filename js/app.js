@@ -25,6 +25,8 @@ function shuffle(array) {
     return array;
 }
 
+//using innerHTML and textcontent and innertext to create and add HTML to page 
+
 /*
  * set up the event listener for a card. If a card is clicked:
  *  - display the card's symbol (put this functionality in another function that you call from this one)
@@ -36,11 +38,26 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
- $(".card").click(function() {
+
+ $(".card").click(function display() {
    //if card is displaying, close (remove class)
   //if card is not shown, open (add class)
    $(this).toggleClass("show");
    $(this).toggleClass("open");
+   display();
 
 
  });
+
+ //keeping track of score
+ $(".score-panel").add(function(){
+   $(".stars").add(".fa fa-star");
+
+ })
+
+//reset game
+
+  $(".restart").click(function(){
+    shuffle();
+
+  })
