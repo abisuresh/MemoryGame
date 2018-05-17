@@ -45,15 +45,13 @@ var openCards=[];
 $(".card").click(function display() {
    //if card is displaying, close (remove class)
   //if card is not shown, open (add class)
-  //with elements from w3 notation https://www.w3schools.com/howto/howto_js_toggle_class.asp
-   // var CardElement = document.getElementById("card"); //doesn't work in IE 9
-   // CardElement.classList.toggle("show" "open");
+
    $(this).toggleClass("show");
    $(this).toggleClass("open");
 
  });
 
- display();
+ //display();
 
  //keeping track of score
  $(".score-panel").add(function(){
@@ -73,7 +71,7 @@ $(".card").click(function(){
 
 //reset game
 
-  $(".restart").onclick(function(){
+  $(".restart").click(function(){
     var numberClicks=0;
     shuffle();
 
