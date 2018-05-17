@@ -11,8 +11,8 @@ var CardList =["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bo
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+function shuffle(CardList) {
+    var currentIndex = CardList.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -25,7 +25,9 @@ function shuffle(array) {
     return array;
 }
 
-//using innerHTML and textcontent and innertext to create and add HTML to page 
+//using innerHTML and textcontent and innertext to create and add HTML to page
+
+
 
 /*
  * set up the event listener for a card. If a card is clicked:
@@ -38,16 +40,20 @@ function shuffle(array) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+var openCards=[];
 
- $(".card").click(function display() {
+$(".card").click(function display() {
    //if card is displaying, close (remove class)
   //if card is not shown, open (add class)
+  //with elements from w3 notation https://www.w3schools.com/howto/howto_js_toggle_class.asp
+   // var CardElement = document.getElementById("card"); //doesn't work in IE 9
+   // CardElement.classList.toggle("show" "open");
    $(this).toggleClass("show");
    $(this).toggleClass("open");
-   display();
-
 
  });
+
+ display();
 
  //keeping track of score
  $(".score-panel").add(function(){
@@ -55,9 +61,20 @@ function shuffle(array) {
 
  })
 
+//counting moves
+
+$(".card").click(function(){
+  var numberClicks=0;
+  numberClicks=+1;
+  console.log(numberClicks);
+
+})
+
+
 //reset game
 
-  $(".restart").click(function(){
+  $(".restart").onclick(function(){
+    var numberClicks=0;
     shuffle();
 
   })
