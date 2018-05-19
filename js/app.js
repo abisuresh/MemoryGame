@@ -11,18 +11,18 @@ var CardList =["fa fa-diamond", "fa fa-paper-plane-o", "fa fa-anchor", "fa fa-bo
  */
 
 // Shuffle function from http://stackoverflow.com/a/2450976
-function shuffle(CardList) {
+function shuffle() {
     var currentIndex = CardList.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
         currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
+        temporaryValue = CardList[currentIndex];
+        CardList[currentIndex] = CardList[randomIndex];
+        CardList[randomIndex] = temporaryValue;
     }
 
-    return array;
+    return CardList;
 }
 
 //using innerHTML and textcontent and innertext to create and add HTML to page
@@ -40,7 +40,10 @@ function shuffle(CardList) {
  *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
  */
 
+//list of cards that have been opened
 var openCards=[];
+
+//event listener
 
 $(".card").click(function display() {
    //if card is displaying, close (remove class)
@@ -49,30 +52,73 @@ $(".card").click(function display() {
    $(this).toggleClass("show");
    $(this).toggleClass("open");
 
+   //add card to OpenCards array
+
+   openCards.push($(this));
+
+   //see if there are any matches in OpenCards
+
+   if (openCards.length=2) {
+
+
+   }
+
+
+   // if $(this).text(jQuery.inArray("", OpenCards));
+
+   //remove cards that do not match
+
+   $(this).removeClass("show" "open"); 
+
+    //lock matches in open position
+
+    $(this).addClass("match");
+
  });
 
- //display();
 
  //keeping track of score
  $(".score-panel").add(function(){
    $(".stars").add(".fa fa-star");
 
+   //if statement adding points if match
+
  })
 
 //counting moves
 
+var numberClicks=0;
+
 $(".card").click(function(){
-  var numberClicks=0;
-  numberClicks=+1;
-  console.log(numberClicks);
+  // var numberClicks;
+  for(var numberClicks=0; numberClicks<100; numberClicks++){
+      numberClicks++;
+      $(".moves").html(numberClicks);
+      console.log(numberClicks);
+  }
+
+  //if statement to increment by 1 for each click before the game is won
+
+  // var numberClicks=0;
+  // numberClicks=+1;
+
+
 
 })
 
 
 //reset game
+  //set return value of shuffle function to CardList array
+  //iterate over each icon and remove the class
+  //add the class in CardList after shuffle function to each element
 
-  $(".restart").click(function(){
-    var numberClicks=0;
-    shuffle();
+$(".restart").click(function(){
+  numberClicks=0;
+  CardList=shuffle();
+  $(".card > i").each(function(index, element){
+    $(element).removeClass();
+    $(element).addClass(CardList[index]);
 
-  })
+  });
+
+})
