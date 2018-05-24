@@ -26,7 +26,13 @@ function shuffle() {
 }
 
 //using innerHTML and textcontent and innertext to create and add HTML to page
+//document create element
 
+// $(".card > i").each(function(index, element){
+//   $(element).removeClass();
+//   $(element).addClass(CardList[index]);
+//
+// });
 
 
 /*
@@ -56,56 +62,100 @@ $(".card").click(function display() {
 
    openCards.push($(this));
 
+
    //see if there are any matches in OpenCards
-
-   if (openCards.length=2) {
-
-
-   }
+   //with elements used from https://www.w3resource.com/javascript-exercises/javascript-array-exercise-20.php
 
 
-   // if $(this).text(jQuery.inArray("", OpenCards));
+//
+   if (openCards.length==2) {
 
-   //remove cards that do not match
+     // for (var i=0; i<openCards.length + 1; i++){
+     //
+     //
+     // }
 
-   $(this).removeClass("show" "open"); 
+     // var checkingMatchesArray = openCards.map();
 
-    //lock matches in open position
+     //timeout for how long card displays if no match
+     setTimeout(function(){
+       $(".card").removeClass("show open");
+     }, 4000);
 
-    $(this).addClass("match");
+   //   $(this).each(function(index,element){
+   //     //if(element.class == '')
+   //
+   //
+   //   })else if (openCards.length>2){
+   //   $(this).removeClass("show open");
+   // }
 
+ }
+// //
+// //
+// //    // if $(this).text(jQuery.inArray("", OpenCards));
+//
+
+
+//
+//    //remove cards that do not match from OpenCards Array
+//    openCards.pop($(this));
+//
+//
+//    //hide cards that do not match
+//    $(this).removeClass("show" "open");
+//
+//     //lock matches in open position
+//
+//     $(this).addClass("match");
+//
  });
-
-
- //keeping track of score
- $(".score-panel").add(function(){
-   $(".stars").add(".fa fa-star");
-
-   //if statement adding points if match
-
- })
-
+//
+//
+//
+//
 //counting moves
 
 var numberClicks=0;
 
 $(".card").click(function(){
-  // var numberClicks;
-  for(var numberClicks=0; numberClicks<100; numberClicks++){
-      numberClicks++;
-      $(".moves").html(numberClicks);
-      console.log(numberClicks);
-  }
 
-  //if statement to increment by 1 for each click before the game is won
+//increment number of moves
+  numberClicks+=1;
+  $(".moves").html(numberClicks);
+  console.log(numberClicks);
 
-  // var numberClicks=0;
-  // numberClicks=+1;
+//decrease star rating for more moves
+  // if (10<numberClicks<15){
+  //   $(".stars > i").removeClass(".fa fa-star");
+  // }
 
+// keeping track of star rating
+// $(".score-panel").remove(function(){
+//   $(".stars").remove(".fa fa-star");
+//
+// })
 
 
 })
 
+//timer
+
+setInterval(function(){},3000)
+
+//winning game
+  //congratulations message
+  var gameWon=false;
+  if (openCards.length==16){
+    gameWon= true;
+  } else{
+    gameWon=false;
+  }
+
+
+  if (gameWon==true){
+    alert("Congratulations! You have won!\nTime elapsed:\nStar rating");
+  }
 
 //reset game
   //set return value of shuffle function to CardList array
@@ -113,12 +163,11 @@ $(".card").click(function(){
   //add the class in CardList after shuffle function to each element
 
 $(".restart").click(function(){
-  numberClicks=0;
   CardList=shuffle();
   $(".card > i").each(function(index, element){
     $(element).removeClass();
     $(element).addClass(CardList[index]);
-
+  numberClicks=0;
   });
 
 })
