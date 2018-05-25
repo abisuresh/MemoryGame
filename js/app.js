@@ -54,6 +54,7 @@ var openCards=[];
 $(".card").click(function display() {
    //if card is displaying, close (remove class)
   //if card is not shown, open (add class)
+   console.dir($(this));
 
    $(this).toggleClass("show");
    $(this).toggleClass("open");
@@ -68,14 +69,23 @@ $(".card").click(function display() {
 
 
 //
-   if (openCards.length==2) {
+   if (openCards.length>=2) {
+     var attribute= "class";
 
-     // for (var i=0; i<openCards.length + 1; i++){
-     //
-     //
-     // }
+     if(openCards[openCards.length-2].children().attr(attribute)==openCards[openCards.length-1].children().attr(attribute)){
+       console.log("Attribute Function");
 
-     // var checkingMatchesArray = openCards.map();
+       //lock matches in open position
+
+       openCards[openCards.length-1].addClass("match");
+       openCards[openCards.length-2].addClass("match");
+
+     } else {
+       openCards.pop();
+       openCards.pop();
+
+     }
+
 
      //timeout for how long card displays if no match
      setTimeout(function(){
@@ -91,11 +101,6 @@ $(".card").click(function display() {
    // }
 
  }
-// //
-// //
-// //    // if $(this).text(jQuery.inArray("", OpenCards));
-//
-
 
 //
 //    //remove cards that do not match from OpenCards Array
@@ -105,9 +110,9 @@ $(".card").click(function display() {
 //    //hide cards that do not match
 //    $(this).removeClass("show" "open");
 //
-//     //lock matches in open position
-//
-//     $(this).addClass("match");
+
+
+
 //
  });
 //
@@ -141,7 +146,10 @@ $(".card").click(function(){
 
 //timer
 
-setInterval(function(){},3000)
+setInterval(function(){
+  var timeClock= "0";
+  document.getElementsByClassName('Timer').innerText= timeClock;
+},3000)
 
 //winning game
   //congratulations message
