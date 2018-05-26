@@ -78,7 +78,7 @@ $(".card").click(function display() {
 
   //
   if (openCards.length%2==0 && openCards.length!==0) {
-    var attribute= "class";
+    const attribute= "class";
 
     if(openCards[openCards.length-2].children().attr(attribute)==openCards[openCards.length-1].children().attr(attribute)){
       console.log("Attribute Function");
@@ -88,27 +88,37 @@ $(".card").click(function display() {
       openCards[openCards.length-1].addClass("match");
       openCards[openCards.length-2].addClass("match");
 
+      //winning game
+      //congratulations message
+      var gameWon=false;
+      if (openCards.length==16){
+        gameWon= true;
+      } else{
+        gameWon=false;
+      }
+
+      if (gameWon==true){
+        setTimeout(function(){
+          alert("Congratulations! You have won!\nTime elapsed:\nStar rating");
+        },100);
+      }
+
+
     } else {
-      openCards.pop();
-      openCards.pop();
+      const card1= openCards.pop();
+      const card2= openCards.pop();
 
       //timeout for how long card displays if no match
+
       setTimeout(function(){
-        $(".card").removeClass("show open");
+        $(card1).removeClass("show open");
+        $(card2).removeClass("show open");
       }, 4000);
 
     }
 
 
 
-
-    //   $(this).each(function(index,element){
-    //     //if(element.class == '')
-    //
-    //
-    //   })else if (openCards.length>2){
-    //   $(this).removeClass("show open");
-    // }
 
   }
 
@@ -161,19 +171,7 @@ setInterval(function(){
   document.getElementsByClassName('Timer').innerText= timeClock;
 },3000)
 
-//winning game
-//congratulations message
-var gameWon=false;
-if (openCards.length==16){
-  gameWon= true;
-} else{
-  gameWon=false;
-}
 
-
-if (gameWon==true){
-  alert("Congratulations! You have won!\nTime elapsed:\nStar rating");
-}
 
 //reset game
 //set return value of shuffle function to CardList array
