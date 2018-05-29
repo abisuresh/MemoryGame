@@ -70,8 +70,6 @@ $(".card").click(function display() {
   }
 
 
-
-
   //see if there are any matches in OpenCards
   //with elements used from https://www.w3resource.com/javascript-exercises/javascript-array-exercise-20.php
 
@@ -99,11 +97,12 @@ $(".card").click(function display() {
 
       if (gameWon==true){
         setTimeout(function(){
-          alert("Congratulations! You have won!\nTime elapsed:\nStar rating");
+          alert("Congratulations! You have won!\nTime elapsed: " + seconds + "seconds and " + minutes + " minutes"  + "\nStar rating: " + stars);
+          Timer();
         },100);
       }
 
-
+      //remove cards that don't match
     } else {
       const card1= openCards.pop();
       const card2= openCards.pop();
@@ -113,7 +112,7 @@ $(".card").click(function display() {
       setTimeout(function(){
         $(card1).removeClass("show open");
         $(card2).removeClass("show open");
-      }, 4000);
+      }, 3000);
 
     }
 
@@ -122,28 +121,14 @@ $(".card").click(function display() {
 
   }
 
-  //
-  //    //remove cards that do not match from OpenCards Array
-  //    openCards.pop($(this));
-  //
-  //
-  //    //hide cards that do not match
-  //    $(this).removeClass("show" "open");
-  //
 
-
-
-  //
 });
-//
-//
-//
-//
+
 //counting moves
 
 var numberClicks=0;
 
-$(".card").click(function(){
+$(".card").click(function moves(){
 
   //increment number of moves
   numberClicks+=1;
@@ -151,27 +136,53 @@ $(".card").click(function(){
   console.log(numberClicks);
 
   //decrease star rating for more moves
-  // if (10<numberClicks<15){
-  //   $(".stars > i").removeClass(".fa fa-star");
-  // }
+  if (numberClicks==17){
+    $(".stars > li:first-child").remove();
+    // continue;
+  }else if(numberClicks==25){
+    $(".stars > li:nth-child(2)").remove();
 
-  // keeping track of star rating
+  }
+
+  var stars= $(".stars > li").length;
+
+
+
+
+  // const stars = $(".stars > li");
+  // stars[stars.length-1].remove();
+
+  //keeping track of star rating
+  // if(numberClicks>10){
   // $(".score-panel").remove(function(){
   //   $(".stars").remove(".fa fa-star");
+  //   }
   //
   // })
 
 
 })
 
+// var starsRating= moves();
+var stars= $(".stars > li").length;
+
 //timer
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now
 
-setInterval(function(){
-  var timeClock= "0";
-  document.getElementsByClassName('Timer').innerText= timeClock;
-},3000)
+var startGame= Date.now();
+// document.getElementsByClassName('Timer').innerText= timeClock;
 
+// setInterval(function timer(){
+//
+// },3000)
 
+var seconds= Math.floor((Date.now() - startGame)/1000);
+var minutes= Math.floor(seconds/60);
+
+setTimeout(function Timer(){
+  console.log(" " + seconds + " seconds and " + minutes + "minutes");
+
+},Math.floor(Date.now()-startGame))
 
 //reset game
 //set return value of shuffle function to CardList array
