@@ -34,6 +34,34 @@ function shuffle() {
 //
 // });
 
+//timer
+  //display appropriate message in minutes and seconds depending on how much time has elapsed
+//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now
+
+var startGame= Date.now();
+var seconds= 0;
+var minutes= 0;
+var elapsedTime= " " + minutes + " minute(s) " + seconds%60 + " seconds";
+
+
+var gameClock = function (){
+  seconds= Math.floor((Date.now() - startGame)/1000);
+  minutes= Math.floor(seconds/60);
+  if (seconds<60){
+    elapsedTime="Timer: " + " " + seconds + " seconds";
+    document.getElementById('Clock').innerText= elapsedTime;
+
+  }else if(60>=seconds && seconds<120){
+    elapsedTime= "Timer: " + minutes + " minute " + seconds%60 + " seconds";
+    document.getElementById('Clock').innerText= elapsedTime;
+  }else{
+    elapsedTime= "Timer: " + minutes + " minutes " + seconds%60 + " seconds";
+    document.getElementById('Clock').innerText= elapsedTime;
+  }
+
+}
+
+var timer= setInterval(gameClock,1000);
 
 /*
 * set up the event listener for a card. If a card is clicked:
@@ -140,41 +168,13 @@ $(".card").click(function moves(){
 
   }
 
-  // var stars= $(".stars > li").length;
-
 
 })
 
 // var starsRating= moves();
 var stars= $(".stars > li").length;
 
-//timer
-//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now
 
-var startGame= Date.now();
-var seconds= 0;
-var minutes= 0;
-var elapsedTime= " " + minutes + " minute(s) " + seconds%60 + " seconds";
-
-
-var gameClock = function (){
-  seconds= Math.floor((Date.now() - startGame)/1000);
-  minutes= Math.floor(seconds/60);
-  if (seconds<60){
-    elapsedTime="Timer: " + " " + seconds + " seconds";
-    document.getElementById('Clock').innerText= elapsedTime;
-
-  }else if(60>=seconds && seconds<120){
-    elapsedTime= "Timer: " + minutes + " minute " + seconds%60 + " seconds";
-    document.getElementById('Clock').innerText= elapsedTime;
-  }else{
-    elapsedTime= "Timer: " + minutes + " minutes " + seconds%60 + " seconds";
-    document.getElementById('Clock').innerText= elapsedTime;
-  }
-
-}
-
-var timer= setInterval(gameClock,1000);
 
 
 
@@ -195,13 +195,15 @@ $(".restart").click(function(){
   $(".card > i").each(function(index, element){
     $(element).removeClass();
     $(element).addClass(CardList[index]);
-    numberClicks=0;
   });
   startGame=Date.now();
   seconds=0;
   minutes=0;
   $(".stars > li").show();
   $(".card").removeClass("match show open");
+  clearInterval(timer);
   timer= setInterval(gameClock,1000);
+  numberClicks=0;
+  $(".moves").html(numberClicks);
 
 })
