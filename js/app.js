@@ -54,7 +54,7 @@ var openCards=[];
 $(".card").click(function display() {
   //if card is displaying, close (remove class)
   //if card is not shown, open (add class)
-  console.dir($(this));
+  // console.dir($(this));
 
   $(this).toggleClass("show");
   $(this).toggleClass("open");
@@ -73,8 +73,6 @@ $(".card").click(function display() {
   //see if there are any matches in OpenCards
   //with elements used from https://www.w3resource.com/javascript-exercises/javascript-array-exercise-20.php
 
-
-  //
   if (openCards.length%2==0 && openCards.length!==0) {
     const attribute= "class";
 
@@ -91,14 +89,14 @@ $(".card").click(function display() {
       var gameWon=false;
       if (openCards.length==16){
         gameWon= true;
+        clearInterval(timer);
       } else{
         gameWon=false;
       }
 
       if (gameWon==true){
         setTimeout(function(){
-          alert("Congratulations! You have won!\nTime elapsed: " + seconds + "seconds and " + minutes + " minutes"  + "\nStar rating: " + stars);
-          Timer();
+          alert("Congratulations! You have won!\nTime elapsed:" + elapsedTime  + "\nStar rating: " + stars);
         },100);
       }
 
@@ -116,11 +114,7 @@ $(".card").click(function display() {
 
     }
 
-
-
-
   }
-
 
 });
 
@@ -137,28 +131,16 @@ $(".card").click(function moves(){
 
   //decrease star rating for more moves
   if (numberClicks==17){
-    $(".stars > li:first-child").remove();
+    $(".stars > li:first-child").hide();
+    stars=2;
     // continue;
   }else if(numberClicks==25){
-    $(".stars > li:nth-child(2)").remove();
+    $(".stars > li:nth-child(2)").hide();
+    stars=1;
 
   }
 
-  var stars= $(".stars > li").length;
-
-
-
-
-  // const stars = $(".stars > li");
-  // stars[stars.length-1].remove();
-
-  //keeping track of star rating
-  // if(numberClicks>10){
-  // $(".score-panel").remove(function(){
-  //   $(".stars").remove(".fa fa-star");
-  //   }
-  //
-  // })
+  // var stars= $(".stars > li").length;
 
 
 })
@@ -170,24 +152,43 @@ var stars= $(".stars > li").length;
 //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now
 
 var startGame= Date.now();
-// document.getElementsByClassName('Timer').innerText= timeClock;
+var seconds= 0;
+var minutes= 0;
+var elapsedTime= " " + minutes + " minute(s) " + seconds%60 + " seconds";
 
-// setInterval(function timer(){
+
+var gameClock = function (){
+  seconds= Math.floor((Date.now() - startGame)/1000);
+  minutes= Math.floor(seconds/60);
+  if (seconds<60){
+    elapsedTime="Timer: " + " " + seconds + " seconds";
+    document.getElementById('Clock').innerText= elapsedTime;
+
+  }else if(60>=seconds && seconds<120){
+    elapsedTime= "Timer: " + minutes + " minute " + seconds%60 + " seconds";
+    document.getElementById('Clock').innerText= elapsedTime;
+  }else{
+    elapsedTime= "Timer: " + minutes + " minutes " + seconds%60 + " seconds";
+    document.getElementById('Clock').innerText= elapsedTime;
+  }
+
+}
+
+var timer= setInterval(gameClock,1000);
+
+
+
+// setTimeout(function Timer(){
+//   console.log(" " + seconds + " seconds and " + minutes + "minutes");
 //
-// },3000)
-
-var seconds= Math.floor((Date.now() - startGame)/1000);
-var minutes= Math.floor(seconds/60);
-
-setTimeout(function Timer(){
-  console.log(" " + seconds + " seconds and " + minutes + "minutes");
-
-},Math.floor(Date.now()-startGame))
+// },Math.floor(Date.now()-startGame))
 
 //reset game
 //set return value of shuffle function to CardList array
 //iterate over each icon and remove the class
 //add the class in CardList after shuffle function to each element
+//reset time to 0
+//hide all cards again
 
 $(".restart").click(function(){
   CardList=shuffle();
@@ -196,5 +197,11 @@ $(".restart").click(function(){
     $(element).addClass(CardList[index]);
     numberClicks=0;
   });
+  startGame=Date.now();
+  seconds=0;
+  minutes=0;
+  $(".stars > li").show();
+  $(".card").removeClass("match show open");
+  timer= setInterval(gameClock,1000);
 
 })
