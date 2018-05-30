@@ -34,28 +34,28 @@ function shuffle() {
 //
 // });
 
-//timer
+//timer:
   //display appropriate message in minutes and seconds depending on how much time has elapsed
-//https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now
+ //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/now
 
 var startGame= Date.now();
 var seconds= 0;
 var minutes= 0;
-var elapsedTime= " " + minutes + " minute(s) " + seconds%60 + " seconds";
+var elapsedTime= "Time elapsed: " + minutes + " minute(s) " + seconds%60 + " seconds";
 
 
 var gameClock = function (){
   seconds= Math.floor((Date.now() - startGame)/1000);
   minutes= Math.floor(seconds/60);
   if (seconds<60){
-    elapsedTime="Timer: " + " " + seconds + " seconds";
+    elapsedTime="Time elapsed:" + " " + seconds + " seconds";
     document.getElementById('Clock').innerText= elapsedTime;
 
   }else if(60>=seconds && seconds<120){
-    elapsedTime= "Timer: " + minutes + " minute " + seconds%60 + " seconds";
+    elapsedTime= "Time elapsed: " + minutes + " minute " + seconds%60 + " seconds";
     document.getElementById('Clock').innerText= elapsedTime;
   }else{
-    elapsedTime= "Timer: " + minutes + " minutes " + seconds%60 + " seconds";
+    elapsedTime= "Time elapsed: " + minutes + " minutes " + seconds%60 + " seconds";
     document.getElementById('Clock').innerText= elapsedTime;
   }
 
@@ -82,7 +82,6 @@ var openCards=[];
 $(".card").click(function display() {
   //if card is displaying, close (remove class)
   //if card is not shown, open (add class)
-  // console.dir($(this));
 
   $(this).toggleClass("show");
   $(this).toggleClass("open");
@@ -124,7 +123,7 @@ $(".card").click(function display() {
 
       if (gameWon==true){
         setTimeout(function(){
-          alert("Congratulations! You have won!\nTime elapsed:" + elapsedTime  + "\nStar rating: " + stars);
+          alert("Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars);
         },100);
       }
 
@@ -168,27 +167,16 @@ $(".card").click(function moves(){
 
   }
 
-
 })
 
 // var starsRating= moves();
 var stars= $(".stars > li").length;
 
 
-
-
-
-// setTimeout(function Timer(){
-//   console.log(" " + seconds + " seconds and " + minutes + "minutes");
-//
-// },Math.floor(Date.now()-startGame))
-
 //reset game
 //set return value of shuffle function to CardList array
 //iterate over each icon and remove the class
 //add the class in CardList after shuffle function to each element
-//reset time to 0
-//hide all cards again
 
 $(".restart").click(function(){
   CardList=shuffle();
@@ -200,10 +188,20 @@ $(".restart").click(function(){
   seconds=0;
   minutes=0;
   $(".stars > li").show();
+
+  //hide all cards again
   $(".card").removeClass("match show open");
+
+  //reset time to 0
+  //clear any time on timer and moves in move counter
   clearInterval(timer);
   timer= setInterval(gameClock,1000);
   numberClicks=0;
   $(".moves").html(numberClicks);
 
+  //remove any leftover cards in openCards
+
+  while(openCards.length!==0){
+    openCards.pop();
+  }
 })
