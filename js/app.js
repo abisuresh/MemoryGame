@@ -25,6 +25,8 @@ function shuffle() {
   return CardList;
 }
 
+shuffle();
+
 //using innerHTML and textcontent and innertext to create and add HTML to page
 //document create element
 
@@ -80,64 +82,71 @@ var openCards=[];
 //event listener
 
 $(".card").click(function display() {
-  //if card is displaying, close (remove class)
-  //if card is not shown, open (add class)
 
-  $(this).toggleClass("show");
-  $(this).toggleClass("open");
-
-  //add card to OpenCards array
-
-  if ($(this).is(openCards[openCards.length-1])){
-    openCards.pop();
-
-  }else{
-    openCards.push($(this));
-
-  }
+  if(!$(this).attr("class").includes("match")){
 
 
-  //see if there are any matches in OpenCards
-  //with elements used from https://www.w3resource.com/javascript-exercises/javascript-array-exercise-20.php
 
-  if (openCards.length%2==0 && openCards.length!==0) {
-    const attribute= "class";
+    //if card is displaying, close (remove class)
+    //if card is not shown, open (add class)
 
-    if(openCards[openCards.length-2].children().attr(attribute)==openCards[openCards.length-1].children().attr(attribute)){
-      console.log("Attribute Function");
+    $(this).toggleClass("show");
+    $(this).toggleClass("open");
 
-      //lock matches in open position
+    //add card to OpenCards array
 
-      openCards[openCards.length-1].addClass("match");
-      openCards[openCards.length-2].addClass("match");
+    if ($(this).is(openCards[openCards.length-1])){
+      openCards.pop();
 
-      //winning game
-      //congratulations message
-      var gameWon=false;
-      if (openCards.length==16){
-        gameWon= true;
-        clearInterval(timer);
-      } else{
-        gameWon=false;
-      }
+    }else{
+      openCards.push($(this));
 
-      if (gameWon==true){
+    }
+
+
+    //see if there are any matches in OpenCards
+    //with elements used from https://www.w3resource.com/javascript-exercises/javascript-array-exercise-20.php
+
+    if (openCards.length%2==0 && openCards.length!==0) {
+      const attribute= "class";
+
+      if(openCards[openCards.length-2].children().attr(attribute)==openCards[openCards.length-1].children().attr(attribute)){
+        console.log("Attribute Function");
+
+        //lock matches in open position
+
+        openCards[openCards.length-1].addClass("match");
+        openCards[openCards.length-2].addClass("match");
+
+        //winning game
+        //congratulations message
+        var gameWon=false;
+        if (openCards.length==16){
+          gameWon= true;
+          clearInterval(timer);
+        } else{
+          gameWon=false;
+        }
+
+        if (gameWon==true){
+          setTimeout(function(){
+            alert("Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars);
+          },100);
+        }
+
+        //remove cards that don't match
+      } else {
+        const card1= openCards.pop();
+        const card2= openCards.pop();
+
+        //timeout for how long card displays if no match
+
         setTimeout(function(){
-          alert("Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars);
-        },100);
+          $(card1).removeClass("show open");
+          $(card2).removeClass("show open");
+        }, 3000);
+
       }
-
-      //remove cards that don't match
-    } else {
-      const card1= openCards.pop();
-      const card2= openCards.pop();
-
-      //timeout for how long card displays if no match
-
-      setTimeout(function(){
-        $(card1).removeClass("show open");
-        $(card2).removeClass("show open");
-      }, 3000);
 
     }
 
@@ -177,8 +186,7 @@ var stars= $(".stars > li").length;
 //set return value of shuffle function to CardList array
 //iterate over each icon and remove the class
 //add the class in CardList after shuffle function to each element
-
-$(".restart").click(function(){
+function restart(){
   CardList=shuffle();
   $(".card > i").each(function(index, element){
     $(element).removeClass();
@@ -204,4 +212,7 @@ $(".restart").click(function(){
   while(openCards.length!==0){
     openCards.pop();
   }
-})
+}
+
+$(".restart").click(restart);
+restart(); 
