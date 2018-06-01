@@ -27,14 +27,6 @@ function shuffle() {
 
 shuffle();
 
-//using innerHTML and textcontent and innertext to create and add HTML to page
-//document create element
-
-// $(".card > i").each(function(index, element){
-//   $(element).removeClass();
-//   $(element).addClass(CardList[index]);
-//
-// });
 
 //timer:
   //display appropriate message in minutes and seconds depending on how much time has elapsed
@@ -85,8 +77,6 @@ $(".card").click(function display() {
 
   if(!$(this).attr("class").includes("match")){
 
-
-
     //if card is displaying, close (remove class)
     //if card is not shown, open (add class)
 
@@ -136,7 +126,7 @@ $(".card").click(function display() {
           setTimeout(function(){
             // alert("Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars);
             // <a data-toggle="modal" href="#congratsModal"></a>
-            document.getElementById('congrats').innerText="Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars;
+            document.getElementById('congrats').innerText="Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars + "\nDo you want to play again?";
             $('#congratsModal').modal('show');
             // popupModal.style.display="block";
           },100);
