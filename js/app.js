@@ -27,6 +27,8 @@ function shuffle() {
 
 shuffle();
 
+//list of cards that have been opened
+var openCards=[];
 
 //timer:
   //display appropriate message in minutes and seconds depending on how much time has elapsed
@@ -38,24 +40,24 @@ var minutes= 0;
 var elapsedTime= "Time elapsed: " + minutes + " minute(s) " + seconds%60 + " seconds";
 
 
-var gameClock = function (){
-  seconds= Math.floor((Date.now() - startGame)/1000);
-  minutes= Math.floor(seconds/60);
-  if (seconds<60){
-    elapsedTime="Time elapsed:" + " " + seconds + " seconds";
-    document.getElementById('Clock').innerText= elapsedTime;
+  var gameClock = function (){
+    seconds= Math.floor((Date.now() - startGame)/1000);
+    minutes= Math.floor(seconds/60);
+    if (seconds<60){
+      elapsedTime="Time elapsed:" + " " + seconds + " seconds";
+      document.getElementById('Clock').innerText= elapsedTime;
 
-  }else if(60>=seconds && seconds<120){
-    elapsedTime= "Time elapsed: " + minutes + " minute " + seconds%60 + " seconds";
-    document.getElementById('Clock').innerText= elapsedTime;
-  }else{
-    elapsedTime= "Time elapsed: " + minutes + " minutes " + seconds%60 + " seconds";
-    document.getElementById('Clock').innerText= elapsedTime;
+    }else if(60>=seconds && seconds<120){
+      elapsedTime= "Time elapsed: " + minutes + " minute " + seconds%60 + " seconds";
+      document.getElementById('Clock').innerText= elapsedTime;
+    }else{
+      elapsedTime= "Time elapsed: " + minutes + " minutes " + seconds%60 + " seconds";
+      document.getElementById('Clock').innerText= elapsedTime;
+    }
+
   }
 
-}
-
-var timer= setInterval(gameClock,1000);
+  // var timer= setInterval(gameClock,1000);
 
 /*
 * set up the event listener for a card. If a card is clicked:
@@ -68,12 +70,15 @@ var timer= setInterval(gameClock,1000);
 *    + if all cards have matched, display a message with the final score (put this functionality in another function that you call from this one)
 */
 
-//list of cards that have been opened
-var openCards=[];
+
 
 //event listener
+var numMatches=0;
 
 $(".card").click(function display() {
+
+  gameClock();
+  var timer= setInterval(gameClock,1000);
 
   if(!$(this).attr("class").includes("match")){
 
@@ -126,9 +131,15 @@ $(".card").click(function display() {
           setTimeout(function(){
             // alert("Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars);
             // <a data-toggle="modal" href="#congratsModal"></a>
-            document.getElementById('congrats').innerText="Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars + "\nDo you want to play again?";
-            $('#congratsModal').modal('show');
+            //use document.getElementById('congrats').innerText="Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars + "\nDo you want to play again?";
+            //use $('#congratsModal').modal('show');
             // popupModal.style.display="block";
+            swal({
+              title: "Congratulations!",
+              text: "You have won!\n" + elapsedTime  + "\nStar rating: " + stars,
+              button: "Play again?",
+            });
+
           },100);
         }
 
@@ -140,7 +151,6 @@ $(".card").click(function display() {
           popupModal.style.display="none";
 
         }
-
 
         //remove cards that don't match
       } else {
@@ -169,9 +179,11 @@ var numberClicks=0;
 $(".card").click(function moves(){
 
   //increment number of moves
-  numberClicks+=1;
-  $(".moves").html(numberClicks);
-  console.log(numberClicks);
+  // if ($(this).attr("class")!==$(this).attr("class")){
+    numberClicks+=1;
+    $(".moves").html(numberClicks);
+    console.log(numberClicks);
+  // }
 
   //decrease star rating for more moves
   if (numberClicks==17){
@@ -211,7 +223,9 @@ function restart(){
   //reset time to 0
   //clear any time on timer and moves in move counter
   clearInterval(timer);
-  timer= setInterval(gameClock,1000);
+
+  // var timer= setInterval(gameClock,1000);
+
   numberClicks=0;
   $(".moves").html(numberClicks);
 
