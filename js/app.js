@@ -128,11 +128,29 @@ $(".card").click(function display() {
           gameWon=false;
         }
 
+        var popupModal=document.getElementById('congratsModal');
+        var span=document.getElementById('close');
+        var closebutton=document.getElementById('closebutton');
+
         if (gameWon==true){
           setTimeout(function(){
-            alert("Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars);
+            // alert("Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars);
+            // <a data-toggle="modal" href="#congratsModal"></a>
+            document.getElementById('congrats').innerText="Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars;
+            $('#congratsModal').modal('show');
+            // popupModal.style.display="block";
           },100);
         }
+
+        span.onclick=function(){
+          popupModal.style.display="none";
+        }
+
+        closebutton.onclick=function() {
+          popupModal.style.display="none";
+
+        }
+
 
         //remove cards that don't match
       } else {
@@ -215,4 +233,4 @@ function restart(){
 }
 
 $(".restart").click(restart);
-restart(); 
+restart();
