@@ -75,98 +75,115 @@ var elapsedTime= "Time elapsed: " + minutes + " minute(s) " + seconds%60 + " sec
 //event listener
 var numMatches=0;
 
+var timer;
+
+
+
 $(".card").click(function display() {
 
-  gameClock();
-  var timer= setInterval(gameClock,1000);
+  if (timer==undefined){
+    startGame=Date.now();
+    timer= setInterval(gameClock,1000);
+  }
 
   if(!$(this).attr("class").includes("match")){
-
-    //if card is displaying, close (remove class)
-    //if card is not shown, open (add class)
-
-    $(this).toggleClass("show");
-    $(this).toggleClass("open");
-
-    //add card to OpenCards array
-
-    if ($(this).is(openCards[openCards.length-1])){
-      openCards.pop();
-
-    }else{
-      openCards.push($(this));
-
+    if (openCards.length - numMatches == 2) {
+      return;
     }
 
+      console.log(openCards.length-numMatches);
 
-    //see if there are any matches in OpenCards
-    //with elements used from https://www.w3resource.com/javascript-exercises/javascript-array-exercise-20.php
+      //if card is displaying, close (remove class)
+      //if card is not shown, open (add class)
 
-    if (openCards.length%2==0 && openCards.length!==0) {
-      const attribute= "class";
+      $(this).toggleClass("show");
+      $(this).toggleClass("open");
 
-      if(openCards[openCards.length-2].children().attr(attribute)==openCards[openCards.length-1].children().attr(attribute)){
-        console.log("Attribute Function");
 
-        //lock matches in open position
 
-        openCards[openCards.length-1].addClass("match");
-        openCards[openCards.length-2].addClass("match");
+      //add card to OpenCards array
 
-        //winning game
-        //congratulations message
-        var gameWon=false;
-        if (openCards.length==16){
-          gameWon= true;
-          clearInterval(timer);
-        } else{
-          gameWon=false;
-        }
+      if ($(this).is(openCards[openCards.length-1])){
+        openCards.pop();
 
-        var popupModal=document.getElementById('congratsModal');
-        var span=document.getElementById('close');
-        var closebutton=document.getElementById('closebutton');
-
-        if (gameWon==true){
-          setTimeout(function(){
-            // alert("Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars);
-            // <a data-toggle="modal" href="#congratsModal"></a>
-            //use document.getElementById('congrats').innerText="Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars + "\nDo you want to play again?";
-            //use $('#congratsModal').modal('show');
-            // popupModal.style.display="block";
-            swal({
-              title: "Congratulations!",
-              text: "You have won!\n" + elapsedTime  + "\nStar rating: " + stars,
-              button: "Play again?",
-            });
-
-          },100);
-        }
-
-        span.onclick=function(){
-          popupModal.style.display="none";
-        }
-
-        closebutton.onclick=function() {
-          popupModal.style.display="none";
-
-        }
-
-        //remove cards that don't match
-      } else {
-        const card1= openCards.pop();
-        const card2= openCards.pop();
-
-        //timeout for how long card displays if no match
-
-        setTimeout(function(){
-          $(card1).removeClass("show open");
-          $(card2).removeClass("show open");
-        }, 3000);
+      }else{
+        openCards.push($(this));
 
       }
 
-    }
+
+      //see if there are any matches in OpenCards
+      //with elements used from https://www.w3resource.com/javascript-exercises/javascript-array-exercise-20.php
+
+      if (openCards.length%2==0 && openCards.length!==0) {
+        const attribute= "class";
+
+        if(openCards[openCards.length-2].children().attr(attribute)==openCards[openCards.length-1].children().attr(attribute)){
+          console.log("Attribute Function");
+
+          //lock matches in open position
+
+          openCards[openCards.length-1].addClass("match");
+          openCards[openCards.length-2].addClass("match");
+          numMatches+=2;
+
+          console.log(numMatches);
+
+          //winning game
+          //congratulations message
+          var gameWon=false;
+          if (openCards.length==16){
+            gameWon= true;
+            clearInterval(timer);
+          } else{
+            gameWon=false;
+          }
+
+          var popupModal=document.getElementById('congratsModal');
+          var span=document.getElementById('close');
+          var closebutton=document.getElementById('closebutton');
+
+          if (gameWon==true){
+            setTimeout(function(){
+              // alert("Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars);
+              // <a data-toggle="modal" href="#congratsModal"></a>
+              //use document.getElementById('congrats').innerText="Congratulations! You have won!\n" + elapsedTime  + "\nStar rating: " + stars + "\nDo you want to play again?";
+              //use $('#congratsModal').modal('show');
+              // popupModal.style.display="block";
+              swal({
+                title: "Congratulations!",
+                text: "You have won!\n" + elapsedTime  + "\nStar rating: " + stars,
+                button: "Play again?",
+              });
+
+            },100);
+          }
+
+          span.onclick=function(){
+            popupModal.style.display="none";
+          }
+
+          closebutton.onclick=function() {
+            popupModal.style.display="none";
+
+          }
+
+          //remove cards that don't match
+        } else {
+
+
+          //timeout for how long card displays if no match
+
+          setTimeout(function(){
+            const card1= openCards.pop();
+            const card2= openCards.pop();
+            $(card1).removeClass("show open");
+            $(card2).removeClass("show open");
+          }, 3000);
+
+        }
+
+      }
 
   }
 
@@ -182,7 +199,7 @@ $(".card").click(function moves(){
   // if ($(this).attr("class")!==$(this).attr("class")){
     numberClicks+=1;
     $(".moves").html(numberClicks);
-    console.log(numberClicks);
+    //console.log(numberClicks);
   // }
 
   //decrease star rating for more moves
@@ -223,6 +240,7 @@ function restart(){
   //reset time to 0
   //clear any time on timer and moves in move counter
   clearInterval(timer);
+  timer=undefined;
 
   // var timer= setInterval(gameClock,1000);
 
@@ -234,6 +252,9 @@ function restart(){
   while(openCards.length!==0){
     openCards.pop();
   }
+
+  //reset numMatches
+  numMatches=0;
 }
 
 $(".restart").click(restart);
