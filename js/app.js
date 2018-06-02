@@ -71,20 +71,22 @@ var elapsedTime= "Time elapsed: " + minutes + " minute(s) " + seconds%60 + " sec
 */
 
 
-
 //event listener
 var numMatches=0;
 
 var timer;
 
-
-
 $(".card").click(function display() {
+
+  //only start timer if it has been reset to undefined
+  //start timer from 0 regardless of whether page has been refreshed
 
   if (timer==undefined){
     startGame=Date.now();
     timer= setInterval(gameClock,1000);
   }
+
+  //prevent more than 2 cards from being clicked and opened at the same time
 
   if(!$(this).attr("class").includes("match")){
     if (openCards.length - numMatches == 2) {
@@ -99,8 +101,6 @@ $(".card").click(function display() {
       $(this).toggleClass("show");
       $(this).toggleClass("open");
 
-
-
       //add card to OpenCards array
 
       if ($(this).is(openCards[openCards.length-1])){
@@ -110,7 +110,6 @@ $(".card").click(function display() {
         openCards.push($(this));
 
       }
-
 
       //see if there are any matches in OpenCards
       //with elements used from https://www.w3resource.com/javascript-exercises/javascript-array-exercise-20.php
@@ -171,9 +170,7 @@ $(".card").click(function display() {
           //remove cards that don't match
         } else {
 
-
           //timeout for how long card displays if no match
-
           setTimeout(function(){
             const card1= openCards.pop();
             const card2= openCards.pop();
