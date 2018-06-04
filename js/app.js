@@ -108,6 +108,8 @@ $(".card").click(function display() {
 
       }else{
         openCards.push($(this));
+        numberClicks+=1;
+        $(".moves").html(numberClicks);
 
       }
 
@@ -194,10 +196,10 @@ $(".card").click(function moves(){
 
   //increment number of moves
   // if ($(this).attr("class")!==$(this).attr("class")){
-    numberClicks+=1;
-    $(".moves").html(numberClicks);
+
+    // numberClicks+=1;
+    // $(".moves").html(numberClicks);
     //console.log(numberClicks);
-  // }
 
   //decrease star rating for more moves
   if (numberClicks==17){
