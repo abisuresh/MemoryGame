@@ -71,6 +71,16 @@ var elapsedTime= "Time elapsed: " + minutes + " minute(s) " + seconds%60 + " sec
 */
 
 
+//creating function to disable clicks on a card
+//https://www.codexworld.com/how-to/disable-click-event-jquery/
+
+// function disableClicks(){
+//   $(".card").on('click', disableClicks(){
+//       $(this).off('click');
+//   })
+//
+// }
+
 //event listener
 var numMatches=0;
 
@@ -108,8 +118,14 @@ $(".card").click(function display() {
 
       }else{
         openCards.push($(this));
-        numberClicks+=1;
-        $(".moves").html(numberClicks);
+
+        //if two different cards are clicked, then count that as one move
+
+        if(openCards.length%2==0 && openCards.length!==0){
+          numberClicks+=1;
+          $(".moves").html(numberClicks);
+
+        }
 
       }
 
@@ -187,6 +203,8 @@ $(".card").click(function display() {
   }
 
 });
+
+
 
 //counting moves
 
