@@ -71,16 +71,6 @@ var elapsedTime= "Time elapsed: " + minutes + " minute(s) " + seconds%60 + " sec
 */
 
 
-//creating function to disable clicks on a card
-//https://www.codexworld.com/how-to/disable-click-event-jquery/
-
-// function disableClicks(){
-//   $(".card").on('click', disableClicks(){
-//       $(this).off('click');
-//   })
-//
-// }
-
 //event listener
 var numMatches=0;
 
@@ -120,6 +110,7 @@ $(".card").click(function display() {
         openCards.push($(this));
 
         //if two different cards are clicked, then count that as one move
+        //increment number of moves
 
         if(openCards.length%2==0 && openCards.length!==0){
           numberClicks+=1;
@@ -211,13 +202,6 @@ $(".card").click(function display() {
 var numberClicks=0;
 
 $(".card").click(function moves(){
-
-  //increment number of moves
-  // if ($(this).attr("class")!==$(this).attr("class")){
-
-    // numberClicks+=1;
-    // $(".moves").html(numberClicks);
-    //console.log(numberClicks);
 
   //decrease star rating for more moves
   if (numberClicks==17){
