@@ -197,7 +197,7 @@ $(".card").click(function display() {
 
 
 
-//counting moves
+//creating a click function to monitor number of moves 
 
 var numberClicks=0;
 
